@@ -86,7 +86,11 @@ class _CalculatorState extends State<Calculator> {
                             style: TextStyle(fontSize: 25),
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
+                              if (value == "") {
+                                value = '0';
+                              }
                               totalnos = double.parse(value);
+
                               calculate();
 
                               setState(() {});
@@ -123,6 +127,9 @@ class _CalculatorState extends State<Calculator> {
                             initialValue: '40',
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
+                              if (value == '') {
+                                value = '0';
+                              }
                               costperitem = double.parse(value);
                               calculate();
                               setState(() {});
