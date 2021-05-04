@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:number_to_words_spelling/number_to_words_spelling.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -57,75 +59,116 @@ class _CalculatorState extends State<Calculator> {
         body: SafeArea(
             child: ListView(
           children: <Widget>[
-            Card(
-              elevation: 5,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              color: Colors.amberAccent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Total number',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  )),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 20,
-                    ),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 25),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        totalnos = double.parse(value);
-                        calculate();
+            Row(
+              children: [
+                Expanded(
+                  child: Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.amberAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: Text(
+                            'Number: ',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.only(right: 20, bottom: 5),
+                          child: TextFormField(
+                            style: TextStyle(fontSize: 25),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              totalnos = double.parse(value);
+                              calculate();
 
-                        setState(() {});
-                      },
+                              setState(() {});
+                            },
+                          ),
+                        ))
+                      ],
                     ),
-                  ))
-                ],
-              ),
+                  ),
+                ),
+                Expanded(
+                  child: Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.amberAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(7),
+                          child: Text(
+                            'Cost: ',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        )),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.only(right: 20, bottom: 5),
+                          child: TextFormField(
+                            style: TextStyle(fontSize: 25),
+                            initialValue: '40',
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              costperitem = double.parse(value);
+                              calculate();
+                              setState(() {});
+                            },
+                          ),
+                        ))
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             Card(
               elevation: 5,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              color: Colors.amberAccent,
+              color: Colors.amber[700],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Cost per item',
-                      style: TextStyle(fontSize: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        'Total \n pre-tax'
+                        ' :',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  )),
+                    flex: 1,
+                  ),
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 20,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        right: 10,
+                      ),
+                      child: Center(
+                          child: Text(
+                        (totalnos * costperitem).toStringAsFixed(2),
+                        textScaleFactor: 2,
+                      )),
                     ),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 25),
-                      initialValue: '40',
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        costperitem = double.parse(value);
-                        calculate();
-                        setState(() {});
-                      },
-                    ),
-                  ))
+                    flex: 2,
+                  )
                 ],
               ),
             ),
@@ -287,59 +330,65 @@ class _CalculatorState extends State<Calculator> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               color: Colors.amberAccent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
                 children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
-                      'Tax per item',
-                      style: TextStyle(fontSize: 20),
+                      "Per Item",
+                      style: TextStyle(
+                          fontSize: 20,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold),
                     ),
-                  )),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 15,
-                    ),
-                    child: Center(
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(top: 8, left: 20),
                         child: Text(
-                      taxperitem.toStringAsFixed(2),
-                      textScaleFactor: 2,
-                    )),
-                  ))
-                ],
-              ),
-            ),
-            Card(
-              elevation: 5,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              color: Colors.amberAccent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Total Cost per item',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  )),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(
-                      right: 15,
-                    ),
-                    child: Center(
+                          'Tax per item: ',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(right: 15, top: 8),
+                        child: Center(
+                            child: Text(
+                          taxperitem.toStringAsFixed(2),
+                          textScaleFactor: 2,
+                        )),
+                      ))
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20, left: 20, bottom: 20),
                         child: Text(
-                      totalcostperitem.toStringAsFixed(2),
-                      textScaleFactor: 2,
-                    )),
-                  ))
+                          'Total Cost per item: ',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 15,
+                        ),
+                        child: Center(
+                            child: Text(
+                          totalcostperitem.toStringAsFixed(2),
+                          textScaleFactor: 2,
+                        )),
+                      ))
+                    ],
+                  ),
                 ],
               ),
             ),
